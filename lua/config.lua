@@ -50,6 +50,7 @@ o.shellslash = true
 o.hlsearch = true
 o.incsearch = true
 o.ignorecase = true
+o.smartcase = true
 
 o.foldmethod = 'expr'
 o.foldexpr = 'nvim_treesitter#foldexpr()'
