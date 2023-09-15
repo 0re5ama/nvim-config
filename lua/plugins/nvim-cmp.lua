@@ -65,7 +65,7 @@ return {
             }),
             sources = cmp.config.sources({
                 { name = 'vsnip',                  keyword_length = 2 }, -- nvim-cmp source for vim-vsnip
-                { name = 'cmp_tabnine' },                                -- file paths
+                -- { name = 'cmp_tabnine' },                                -- file paths
                 { name = 'path' },                                       -- file paths
                 { name = 'nvim_lsp',               keyword_length = 2 }, -- from language server
                 { name = 'nvim_lsp_signature_help' },                    -- display function signatures with current parameter emphasized
@@ -113,7 +113,7 @@ return {
                 fields = { 'menu', 'abbr', 'kind' },
                 format = function(entry, item)
                     local menu_icon = {
-                        cmp_tabnine = '󰋙',
+                        -- cmp_tabnine = '󰋙',
                         nvim_lsp = '',
                         vsnip = '',
                         buffer = '󰻋',
@@ -121,7 +121,7 @@ return {
                         calc = '',
                     }
 
-                    if entry.source.name == "cmp_tabnine" then
+                    --[[ if entry.source.name == "cmp_tabnine" then
                         local detail = (entry.completion_item.labelDetails or {}).detail
                         item.kind = ""
                         if detail and detail:find('.*%%.*') then
@@ -131,7 +131,7 @@ return {
                         if (entry.completion_item.data or {}).multiline then
                             item.kind = item.kind .. '  ' .. '[ML]'
                         end
-                    end
+                    end ]]
 
                     item.menu = menu_icon[entry.source.name]
                     item.kind = (icons[item.kind] or item.kind) .. ' ' .. item.kind

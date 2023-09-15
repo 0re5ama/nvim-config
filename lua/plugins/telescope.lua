@@ -10,6 +10,8 @@ return {
         { '<leader>fp', "<cmd>lua require('telescope.builtin').planets()<cr>", desc = 'Telescope Planets' },
         { '<leader>fk', "<cmd>lua require('telescope.builtin').keymaps()<cr>", desc = 'Telescope Planets' },
         { '<leader>ft', ':TodoTelescope<cr>' },
+        { 'gr', ':Telescope lsp_references<cr>' },
+        { '<leader>ls', ':Telescope lsp_dynamic_workspace_symbols<cr>' },
     },
     dependencies = {
         'nvim-lua/plenary.nvim',

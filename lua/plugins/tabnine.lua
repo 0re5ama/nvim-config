@@ -1,4 +1,5 @@
-return {
+return {}
+--[[ return {
     'tzachar/cmp-tabnine',
     build = './install.sh',
     dependencies = 'hrsh7th/nvim-cmp',
@@ -19,4 +20,4 @@ return {
             show_prediction_strength = false
         })
     end
-}
+} ]]

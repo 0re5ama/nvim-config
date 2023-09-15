@@ -1,9 +1,12 @@
 return {
     'neovim/nvim-lspconfig',
+    depenedencies = {
+        'nvim-telescope/telescope.nvim',
+    },
     config = function()
         -- Setup language servers.
-        local lspconfig = require'lspconfig'
-        local util = require'lspconfig/util'
+        local lspconfig = require 'lspconfig'
+        local util = require 'lspconfig/util'
 
         lspconfig.tsserver.setup {}
 
@@ -35,10 +38,10 @@ return {
         -- Global mappings.
         -- See `:help vim.diagnostic.*` for documentation on any of the below functions
         -- vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
-        vim.keymap.set('n', '[e', function ()
+        vim.keymap.set('n', '[e', function()
             vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
         end)
-        vim.keymap.set('n', ']e', function ()
+        vim.keymap.set('n', ']e', function()
             vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
         end)
         vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
@@ -72,7 +75,7 @@ return {
                 vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
                 vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
                 vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
-                vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+                -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
                 -- vim.keymap.set('n', '<leader>==', vim.lsp.buf.formatting_sync, opts)
                 vim.keymap.set('n', '==', function()
                     vim.lsp.buf.format { async = true }

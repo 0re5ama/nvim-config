@@ -26,7 +26,7 @@ return {
                 {
                     'diagnostics',
                     sources = { 'nvim_diagnostic' },
-                    symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' },
+                    symbols = { error = ' ', warn = ' ', info = ' ', hint = '󰌵 ' },
                     diagnostics_color = {
                         color_error = { fg = colors.red },
                         color_warn = { fg = colors.yellow },
