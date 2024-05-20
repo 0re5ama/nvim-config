@@ -1,80 +1,81 @@
 return {
-    'hrsh7th/nvim-cmp',
-    dependencies = {
-        'hrsh7th/vim-vsnip',
-        'hrsh7th/vim-vsnip-integ',
-        'hrsh7th/cmp-cmdline',
-        'hrsh7th/cmp-buffer',
-        'hrsh7th/cmp-path',
-        'hrsh7th/cmp-nvim-lsp',
-        'hrsh7th/cmp-nvim-lua',
-        'hrsh7th/cmp-nvim-lsp-signature-help',
-        'hrsh7th/cmp-vsnip',
-        'hrsh7th/cmp-calc',
-        'onsails/lspkind.nvim',
-    },
-    event = "ModeChanged",
-    config = function()
-        local cmp = require 'cmp'
+	"hrsh7th/nvim-cmp",
+	dependencies = {
+		"hrsh7th/vim-vsnip",
+		"hrsh7th/vim-vsnip-integ",
+		"hrsh7th/cmp-cmdline",
+		"hrsh7th/cmp-buffer",
+		"hrsh7th/cmp-path",
+		"saecki/crates.nvim",
+		"hrsh7th/cmp-nvim-lsp",
+		"hrsh7th/cmp-nvim-lua",
+		"hrsh7th/cmp-nvim-lsp-signature-help",
+		"hrsh7th/cmp-vsnip",
+		"hrsh7th/cmp-calc",
+		"onsails/lspkind.nvim",
+	},
+	event = "ModeChanged",
+	config = function()
+		local cmp = require("cmp")
 
-        local icons = {
-            Text = '󰊄',
-            Method = '󰊕',
-            Function = '󰡱',
-            Constructor = '',
-            Field = '',
-            Variable = '󰫧',
-            Class = '',
-            Interface = '',
-            Module = '',
-            Property = '',
-            Unit = '',
-            Value = '󰎠',
-            Enum = '',
-            Keyword = '',
-            Snippet = '',
-            Color = '',
-            File = '',
-            Reference = '',
-            Folder = '',
-            EnumMember = '',
-            Constant = '',
-            Struct = '',
-            Event = '',
-            Operator = '',
-            TypeParameter = '',
-        }
+		local icons = {
+			Text = "󰊄",
+			Method = "󰊕",
+			Function = "󰡱",
+			Constructor = "",
+			Field = "",
+			Variable = "󰫧",
+			Class = "",
+			Interface = "",
+			Module = "",
+			Property = "",
+			Unit = "",
+			Value = "󰎠",
+			Enum = "",
+			Keyword = "",
+			Snippet = "",
+			Color = "",
+			File = "",
+			Reference = "",
+			Folder = "",
+			EnumMember = "",
+			Constant = "",
+			Struct = "",
+			Event = "",
+			Operator = "",
+			TypeParameter = "",
+		}
 
-        cmp.setup {
-            view = cmp.config.window.bordered(),
-            snippet = {
-                expand = function(args)
-                    vim.fn["vsnip#anonymous"](args.body)
-                end,
-            },
-            window = {
-                completion = cmp.config.window.bordered(),
-                documentation = cmp.config.window.bordered(),
-            },
-            mapping = cmp.mapping.preset.insert({
-                ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-                ['<C-f>'] = cmp.mapping.scroll_docs(4),
-                ['<C-Space>'] = cmp.mapping.complete(),
-                ['<C-e>'] = cmp.mapping.abort(),
-                ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-            }),
-            sources = cmp.config.sources({
-                { name = 'vsnip',                  keyword_length = 2 }, -- nvim-cmp source for vim-vsnip
-                -- { name = 'cmp_tabnine' },                                -- file paths
-                { name = 'path' },                                       -- file paths
-                { name = 'nvim_lsp',               keyword_length = 2 }, -- from language server
-                { name = 'nvim_lsp_signature_help' },                    -- display function signatures with current parameter emphasized
-                { name = 'nvim_lua',               keyword_length = 2 }, -- complete neovim's Lua runtime API such vim.lsp.*
-                { name = 'crates',                 keyword_length = 2 }, -- complete neovim's Lua runtime API such vim.lsp.*
-                { name = 'buffer',                 keyword_length = 2 }, -- source current buffer
-                { name = 'calc' },                                       -- source for math calculation
-            }),
-            --[[
+		cmp.setup({
+			view = cmp.config.window.bordered(),
+			snippet = {
+				expand = function(args)
+					vim.fn["vsnip#anonymous"](args.body)
+				end,
+			},
+			window = {
+				completion = cmp.config.window.bordered(),
+				documentation = cmp.config.window.bordered(),
+			},
+			mapping = cmp.mapping.preset.insert({
+				["<C-b>"] = cmp.mapping.scroll_docs(-4),
+				["<C-f>"] = cmp.mapping.scroll_docs(4),
+				["<C-Space>"] = cmp.mapping.complete(),
+				["<C-e>"] = cmp.mapping.abort(),
+				["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+			}),
+			sources = cmp.config.sources({
+				{ name = "vsnip", keyword_length = 2 }, -- nvim-cmp source for vim-vsnip
+				-- { name = 'cmp_tabnine' },                                -- file paths
+				{ name = "path" }, -- file paths
+				{ name = "nvim_lsp", keyword_length = 2 }, -- from language server
+				{ name = "nvim_lsp_signature_help" }, -- display function signatures with current parameter emphasized
+				{ name = "nvim_lua", keyword_length = 2 }, -- complete neovim's Lua runtime API such vim.lsp.*
+				{ name = "crates", keyword_length = 2 }, -- complete neovim's Lua runtime API such vim.lsp.*
+				{ name = "buffer", keyword_length = 2 }, -- source current buffer
+				{ name = "calc" }, -- source for math calculation
+			}),
+			--[[
             formatting = {
                 format = function(entry, vim_item)
                     local lspkind = require('lspkind')
@@ -109,19 +110,19 @@ return {
                 end,
             },
             --]]
-            formatting = {
-                fields = { 'menu', 'abbr', 'kind' },
-                format = function(entry, item)
-                    local menu_icon = {
-                        -- cmp_tabnine = '󰋙',
-                        nvim_lsp = '',
-                        vsnip = '',
-                        buffer = '󰻋',
-                        path = '󰨣',
-                        calc = '',
-                    }
+			formatting = {
+				fields = { "menu", "abbr", "kind" },
+				format = function(entry, item)
+					local menu_icon = {
+						-- cmp_tabnine = '󰋙',
+						nvim_lsp = "",
+						vsnip = "",
+						buffer = "󰻋",
+						path = "󰨣",
+						calc = "",
+					}
 
-                    --[[ if entry.source.name == "cmp_tabnine" then
+					--[[ if entry.source.name == "cmp_tabnine" then
                         local detail = (entry.completion_item.labelDetails or {}).detail
                         item.kind = ""
                         if detail and detail:find('.*%%.*') then
@@ -133,52 +134,60 @@ return {
                         end
                     end ]]
 
-                    item.menu = menu_icon[entry.source.name]
-                    item.kind = (icons[item.kind] or item.kind) .. ' ' .. item.kind
-                    return item
-                end,
-            },
-            --]]
-        }
+					item.menu = menu_icon[entry.source.name]
+					item.kind = (icons[item.kind] or item.kind) .. " " .. item.kind
+					return item
+				end,
+			},
+			--]]
+		})
 
-        -- Set configuration for specific filetype.
-        cmp.setup.filetype('gitcommit', {
-            sources = cmp.config.sources({
-                { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
-            }, {
-                { name = 'buffer' },
-            })
-        })
+		-- Set configuration for specific filetype.
+		cmp.setup.filetype("gitcommit", {
+			sources = cmp.config.sources({
+				{ name = "cmp_git" }, -- You can specify the `cmp_git` source if you were installed it.
+			}, {
+				{ name = "buffer" },
+			}),
+		})
 
-        -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-        cmp.setup.cmdline('/', {
-            mapping = cmp.mapping.preset.cmdline(),
-            sources = {
-                { name = 'buffer' }
-            }
-        })
+		-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+		cmp.setup.cmdline("/", {
+			mapping = cmp.mapping.preset.cmdline(),
+			sources = {
+				{ name = "buffer" },
+			},
+		})
 
-        -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-        cmp.setup.cmdline(':', {
-            mapping = cmp.mapping.preset.cmdline(),
-            sources = cmp.config.sources({
-                { name = 'path' },
-                {
-                    name = 'cmdline',
-                    option = {
-                        ignore_cmds = { 'Man', 'r!', 'read' },
-                    }
-                }
-            })
-        })
+		-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+		cmp.setup.cmdline(":", {
+			mapping = cmp.mapping.preset.cmdline(),
+			sources = cmp.config.sources({
+				{ name = "path" },
+				{
+					name = "cmdline",
+					option = {
+						ignore_cmds = { "Man", "r!", "read" },
+					},
+				},
+			}),
+		})
 
-        -- Setup lspconfig.
-        local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+		vim.api.nvim_create_autocmd("BufRead", {
+			group = vim.api.nvim_create_augroup("CmpSourceCargo", { clear = true }),
+			pattern = "Cargo.toml",
+			callback = function()
+				cmp.setup.buffer({ sources = { { name = "crates" } } })
+			end,
+		})
 
-        require('lspconfig')['lua_ls'].setup {
-            capabilities = capabilities
-        }
+		-- Setup lspconfig.
+		local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-        vim.g.cmp_debug = true
-    end
+		require("lspconfig")["lua_ls"].setup({
+			capabilities = capabilities,
+		})
+
+		vim.g.cmp_debug = true
+	end,
 }

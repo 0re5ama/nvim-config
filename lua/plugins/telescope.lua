@@ -11,6 +11,8 @@ return {
         { '<leader>fk', "<cmd>lua require('telescope.builtin').keymaps()<cr>", desc = 'Telescope Planets' },
         { '<leader>ft', ':TodoTelescope<cr>' },
         { 'gr', ':Telescope lsp_references<cr>' },
+        { 'gd', ':Telescope lsp_definitions<cr>' },
+        { 'gi', ':Telescope lsp_implementations<cr>' },
         { '<leader>ls', ':Telescope lsp_dynamic_workspace_symbols<cr>' },
     },
     dependencies = {
