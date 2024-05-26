@@ -43,7 +43,6 @@ o.smartindent = true
 o.cindent = true
 
 o.wildmenu = true
-o.shellslash = true
 
 -- o.mouse = ''
 
