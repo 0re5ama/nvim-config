@@ -59,7 +59,7 @@ o.scrolloff = 4
 o.updatetime = 50
 
 o.guifont = "FiraCode Nerd Font Mono:h10"
-o.guibg= "#000000"
+-- o.guibg= "#000000"
 g.neovide_transparency = 0.8
 
 

@@ -4,7 +4,7 @@ return {
 	config = function(_, opts)
 		local crates = require("crates")
 		crates.setup({
-			src = {
+			completion = {
 				cmp = {
 					enabled = true,
 				},

@@ -2,6 +2,7 @@ return {
 	"neovim/nvim-lspconfig",
 	depenedencies = {
 		"nvim-telescope/telescope.nvim",
+		"nvimtools/none-ls.nvim",
 	},
 	config = function()
 		-- Setup language servers.
@@ -9,6 +10,13 @@ return {
 		local util = require("lspconfig/util")
 
 		local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+		lspconfig.biome.setup({
+			capabilities = capabilities,
+			root_dir = function()
+				return vim.loop.cwd()
+			end,
+		})
 
 		lspconfig.angularls.setup({
 			capabilities = capabilities,
@@ -36,7 +44,7 @@ return {
 				return vim.loop.cwd()
 			end,
 		})
-		lspconfig.tsserver.setup({
+		lspconfig.ts_ls.setup({
 			capabilities = capabilities,
 			root_dir = function()
 				return vim.loop.cwd()
@@ -54,9 +62,24 @@ return {
 				return vim.loop.cwd()
 			end,
 		})
+		lspconfig.svelte.setup({
+			capabilities = capabilities,
+			root_dir = function()
+				return vim.loop.cwd()
+			end,
+		})
 
 		-- LSP settings (for overriding per client)
 		local handlers = {
+			["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
+			["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
+		}
+
+		local dotnet_handlers = {
+			["textDocument/definition"] = require("omnisharp_extended").definition_handler,
+			["textDocument/typeDefinition"] = require("omnisharp_extended").type_definition_handler,
+			["textDocument/references"] = require("omnisharp_extended").references_handler,
+			["textDocument/implementation"] = require("omnisharp_extended").implementation_handler,
 			["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
 			["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
 		}
@@ -68,23 +91,26 @@ return {
 		-------------- C# --------------
 		local pid = vim.fn.getpid()
 		local omnisharp_bin = "/home/xer0/.local/share/nvim/mason/bin/omnisharp"
-
-		-- lspconfig.omnisharp.setup({
-			-- on_attach = on_attach,
-			-- cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid) },
-			-- handlers = handlers,
-		-- })
+		-- local omnisharp_bin = "/home/xer0/.local/share/omnisharp/OmniSharp"
 
 		lspconfig.omnisharp.setup({
-			capabilities = capabilities,
-			cmd = { "dotnet", vim.fn.stdpath("data") .. "/mason/packages/omnisharp/libexec/OmniSharp.dll" },
-			enable_import_completion = true,
-			organize_imports_on_format = true,
-			enable_roslyn_analyzers = true,
-			root_dir = function()
-				return vim.loop.cwd() -- current working directory
-			end,
+			-- on_attach = on_attach,
+			-- cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid) },
+			cmd = { omnisharp_bin },
+			handlers = dotnet_handlers,
 		})
+
+		-- lspconfig.omnisharp.setup({
+		-- 	capabilities = capabilities,
+		-- 	-- cmd = { "dotnet", vim.fn.stdpath("data") .. "/mason/packages/omnisharp/libexec/OmniSharp.dll" },
+		-- 	cmd = { "/home/xer0/.local/share/nvim/mason/bin/omnisharp" },
+		-- 	enable_import_completion = false,
+		-- 	organize_imports_on_format = false,
+		-- 	enable_roslyn_analyzers = false,
+		-- 	root_dir = function()
+		-- 		return vim.loop.cwd() -- current working directory
+		-- 	end,
+		-- })
 
 		-------------- lua --------------
 		lspconfig.lua_ls.setup({
@@ -132,9 +158,12 @@ return {
 				vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
 				-- vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
 				-- vim.keymap.set('n', '<leader>==', vim.lsp.buf.formatting_sync, opts)
+				-- vim.keymap.set("n", ",f", function()
+					-- vim.lsp.buf.format({ async = true })
+				-- end, { desc = "Format document with LSP" })
 				vim.keymap.set("n", "==", function()
 					vim.lsp.buf.format({ async = true })
-				end, opts)
+				end, { desc = "Format document with LSP" })
 			end,
 		})
 
