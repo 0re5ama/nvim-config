@@ -1,12 +1,10 @@
 return {
-    'puremourning/vimspector',
-    keys = {
-        { '<f5>' },
-        { '<f8>' },
-        { '<f9>' },
-    },
-    config = function()
-        vim.cmd([[
+	"puremourning/vimspector",
+	keys = {
+		{ "<f12>" },
+	},
+	config = function()
+		vim.cmd([[
             let g:vimspector_enable_mappings = 'VISUAL STUDIO'
             let g:vimspector_sidebar_width = 75
             let g:vimspector_bottombar_height = 15
@@ -34,10 +32,10 @@ return {
             nmap <leader>D     <Plug>VimspectorDisassemble
         ]])
 
-        vim.keymap.set('n', '<leader>z', ':call vimspector#Reset()<cr>')
-        --
-        -- nmap('<leader><f5>', ':call vimspector#Continue()<cr>')
-        -- map('n', "Dw", ":call vimspector#AddWatch()<cr>")
-        vim.keymap.set('n', '<leader>e', ':call vimspector#Evaluate()<cr>')
-    end,
+		vim.keymap.set("n", "<leader>z", ":call vimspector#Reset()<cr>")
+		--
+		-- nmap('<leader><f5>', ':call vimspector#Continue()<cr>')
+		-- map('n', "Dw", ":call vimspector#AddWatch()<cr>")
+		vim.keymap.set("n", "<leader>e", ":call vimspector#Evaluate()<cr>")
+	end,
 }

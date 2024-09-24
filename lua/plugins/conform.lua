@@ -11,10 +11,26 @@ return {
 				-- Conform will run multiple formatters sequentially
 				python = { "isort", "black" },
 				-- You can customize some of the format options for the filetype (:help conform.format)
+				yml = { "yamlfmt", lsp_format = "fallback" },
 				rust = { "rustfmt", lsp_format = "fallback" },
 				zig = { "zigfmt", lsp_format = "fallback" },
 				-- Conform will run the first available formatter
-				json = { "biome", "jq", "prettierd", "prettier", stop_after_first = true, lsp_format = "fallback" },
+				jsonc = {
+					"biome",
+					"jq",
+					"prettierd",
+					"prettier",
+					stop_after_first = true,
+					lsp_format = "fallback",
+				},
+				json = {
+					"biome",
+					"jq",
+					"prettierd",
+					"prettier",
+					stop_after_first = true,
+					lsp_format = "fallback",
+				},
 				javascript = { "biome", "prettierd", "prettier", stop_after_first = true, lsp_format = "fallback" },
 				svelte = { "biome", "prettierd", "prettier", stop_after_first = true, lsp_format = "fallback" },
 				javascriptreact = { "biome", "prettierd", "prettier", stop_after_first = true, lsp_format = "fallback" },

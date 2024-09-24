@@ -5,12 +5,12 @@ return {
 		{ "<leader>S" },
 	},
 	config = function()
-		require("silicon").setup({
+		require("nvim-silicon").setup({
 			-- Configuration here, or leave empty to use defaults
 			-- font = "Fira Code=34;Fira Code=34",
 
 			-- the font settings with size and fallback font
-			font = "Fira Code=34;Fira Code",
+			font = "FiraCode Nerd Font Mono=34",
 			-- the theme to use, depends on themes available to silicon
 			theme = "gruvbox-dark",
 			-- the background color outside the rendered os window
@@ -51,7 +51,7 @@ return {
 			gobble = true,
 			-- a string or function that defines the path to the output image
 			output = function()
-				return "./" .. os.date("!%Y-%m-%dT%H-%M-%S") .. "_code.png"
+				return "~/Pictures/silicon/" .. os.date("!%Y-%m-%dT%H-%M-%S") .. "_code.png"
 			end,
 			-- whether to put the image onto the clipboard, may produce an error if run on WSL2
 			to_clipboard = true,

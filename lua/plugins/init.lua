@@ -1,10 +1,8 @@
 return {
-    'mbbill/undotree',
-    'editorconfig/editorconfig-vim',
-    'sindrets/diffview.nvim',
-    -- DAP
-    'mfussenegger/nvim-dap',
-    --[[
+	"mbbill/undotree",
+	"editorconfig/editorconfig-vim",
+	"sindrets/diffview.nvim",
+	--[[
     {
         "rose-pine/neovim",
         name = 'rose-pine',

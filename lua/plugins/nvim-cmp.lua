@@ -142,6 +142,10 @@ return {
 			--]]
 		})
 
+		cmp.setup.filetype("sql", {
+			sources = { { name = "vim-dadbod-completion" } },
+		})
+
 		-- Set configuration for specific filetype.
 		cmp.setup.filetype("gitcommit", {
 			sources = cmp.config.sources({
