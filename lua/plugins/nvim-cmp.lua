@@ -19,7 +19,6 @@ return {
 		local cmp = require("cmp")
 
 		local icons = {
-			Text = "󰊄",
 			Method = "󰊕",
 			Function = "󰡱",
 			Constructor = "",
@@ -44,6 +43,7 @@ return {
 			Event = "",
 			Operator = "",
 			TypeParameter = "",
+			Text = "󰊄",
 		}
 
 		cmp.setup({
@@ -65,13 +65,15 @@ return {
 				["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 			}),
 			sources = cmp.config.sources({
+				{ name = "copilot" }, -- nvim-cmp source for vim-vsnip
 				{ name = "vsnip", keyword_length = 2 }, -- nvim-cmp source for vim-vsnip
 				-- { name = 'cmp_tabnine' },                                -- file paths
 				{ name = "path" }, -- file paths
-				{ name = "nvim_lsp", keyword_length = 2 }, -- from language server
+				{ name = "nvim_lsp" }, -- from language server
+				{ name = "luasnip" }, -- don't know what
 				{ name = "nvim_lsp_signature_help" }, -- display function signatures with current parameter emphasized
 				{ name = "nvim_lua", keyword_length = 2 }, -- complete neovim's Lua runtime API such vim.lsp.*
-				{ name = "crates", keyword_length = 2 }, -- complete neovim's Lua runtime API such vim.lsp.*
+				{ name = "crates" }, -- complete neovim's Lua runtime API such vim.lsp.*
 				{ name = "buffer", keyword_length = 2 }, -- source current buffer
 				{ name = "calc" }, -- source for math calculation
 			}),

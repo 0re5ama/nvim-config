@@ -1,0 +1,26 @@
+-- local bufnr = vim.api.nvim_get_current_buf()
+-- local opts = { silent = true, buffer = bufnr }
+--
+-- vim.keymap.set("n", "<leader>a", function()
+-- 	vim.cmd.RustLsp("codeAction") -- supports rust-analyzer's grouping
+-- 	-- or vim.lsp.buf.codeAction() if you don't want grouping.
+-- end, opts)
+--
+-- vim.keymap.set("n", "K", "<Plug>RustHoverAction")
+-- vim.keymap.set("n", "<leader>k", "<Plug>RustHoverRange")
+--
+-- vim.keymap.set("n", "<leader>PM", function()
+-- 	vim.cmd.RustLsp("openCargo")
+-- end)
+--
+-- vim.keymap.set("n", "<leader>PP", function()
+-- 	vim.cmd.RustLsp("parentModule")
+-- end)
+--
+-- vim.keymap.set("n", "<leader>J", function()
+-- 	vim.cmd.RustLsp({ "moveItem", "down" })
+-- end)
+--
+-- vim.keymap.set("n", "<leader>K", function()
+-- 	vim.cmd.RustLsp({ "moveItem", "up" })
+-- end)

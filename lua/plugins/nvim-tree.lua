@@ -5,21 +5,23 @@ return {
 	},
 	-- tag = 'nightly',
 	keys = {
-		{ "<leader>tt", ":NvimTreeToggle<cr>", desc = "Nvim Tree Toggle" },
+		{ "<leader>n", ":NvimTreeToggle<cr>", desc = "Nvim Tree Toggle" },
 		{ "<leader>N", ":NvimTreeFindFile<cr>", desc = "Nvim Find Current File" },
 	},
-	config = {
-		sort_by = "case_sensitive",
-		view = {
-			adaptive_size = true,
-		},
-		renderer = {
-			group_empty = true,
-		},
-		filters = {
-			dotfiles = true,
-			custom = { "\\.git" },
-			exclude = { "appsettings*", ".env*" },
-		},
-	},
+	config = function()
+		require("nvim-tree").setup({
+			sort_by = "case_sensitive",
+			view = {
+				adaptive_size = true,
+			},
+			renderer = {
+				group_empty = true,
+			},
+			filters = {
+				dotfiles = false,
+				custom = { ".git" },
+				exclude = { "appsettings*", ".env*" },
+			},
+		})
+	end,
 }

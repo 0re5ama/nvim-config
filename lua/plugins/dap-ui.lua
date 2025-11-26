@@ -3,6 +3,7 @@ return {
 	dependencies = {
 		"mfussenegger/nvim-dap",
 		"nvim-neotest/nvim-nio",
+		"theHamsta/nvim-dap-virtual-text",
 	},
 	keys = {
 		{ "<F5>", "<Cmd>lua require'dap'.continue()<CR>", desc = "Debug" },
@@ -20,9 +21,31 @@ return {
 				type = "coreclr",
 				name = "launch - netcoredbg",
 				request = "launch",
+				-- program = function()
+				-- 	return vim.fn.input("Path to dll: ", vim.fn.getcwd() .. "/bin/Debug/", "file")
+				-- end,
+
 				program = function()
-					return vim.fn.input("Path to dll: ", vim.fn.getcwd() .. "/bin/Debug/ ", "file")
+					-- Get current directory name
+					local cwd = vim.fn.getcwd()
+					local dir = vim.fn.fnamemodify(cwd, ":t") -- :t gets tail (last component) of path
+
+					-- Construct default DLL path
+					local default_dll = cwd .. "/bin/Debug/" .. dir .. ".dll"
+
+					-- Check if file exists
+					if vim.fn.filereadable(default_dll) == 1 then
+						return default_dll
+					end
+
+					-- Fallback to manual input with smart suggestions
+					return vim.fn.input("Path to DLL: ", cwd .. "/bin/Debug/", "file")
 				end,
+				cwd = "${workspaceFolder}",
+				env = {
+					ASPNETCORE_ENVIRONMENT = "Development",
+					DOTNET_ENVIRONMENT = "Development",
+				},
 			},
 		}
 
@@ -57,6 +80,27 @@ return {
 		vim.keymap.set("n", "<leader>dl", function()
 			dap.run_last()
 		end, { desc = "Dap Run Last" })
+
+		vim.fn.sign_define("DapBreakpoint", {
+			text = "", -- Red circle (or use an icon like '')
+			texthl = "Error", -- Highlight group (optional)
+			linehl = "", -- Line highlight (optional)
+			numhl = "", -- Number highlight (optional)
+		})
+
+		vim.fn.sign_define("DapBreakpointRejected", {
+			text = "", -- Rejected breakpoint (or '')
+			texthl = "Error",
+			linehl = "",
+			numhl = "",
+		})
+
+		vim.fn.sign_define("DapStopped", {
+			text = "", -- Current position (or '')
+			texthl = "DiagnosticOk",
+			linehl = "CursorLine", -- Highlight the current line
+			numhl = "",
+		})
 
 		local dap, dapui = require("dap"), require("dapui")
 

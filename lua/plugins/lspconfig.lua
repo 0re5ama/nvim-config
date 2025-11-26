@@ -20,19 +20,21 @@ return {
 			},
 		})
 
-		lspconfig.biome.setup({
+		lspconfig.prismals.setup({
 			capabilities = capabilities,
 			root_dir = function()
 				return vim.loop.cwd()
 			end,
 		})
 
-		lspconfig.angularls.setup({
-			capabilities = capabilities,
-			root_dir = function()
-				return vim.loop.cwd()
-			end,
-		})
+		lspconfig.sourcekit.setup({})
+
+		-- 	lspconfig.angularls.setup({
+		-- 		capabilities = capabilities,
+		-- 		root_dir = function()
+		-- 			return vim.loop.cwd()
+		-- 		end,
+		-- 	})
 
 		lspconfig.zls.setup({
 			capabilities = capabilities,
@@ -59,8 +61,22 @@ return {
 				return vim.loop.cwd()
 			end,
 		})
+
+		local words = {}
+		for word in io.open(vim.fn.stdpath("config") .. "/spell/en.utf-8.add", "r"):lines() do
+			table.insert(words, word)
+		end
+
+		-- TODO: Add words to dictionary
 		lspconfig.ltex.setup({
 			capabilities = capabilities,
+			settings = {
+				ltex = {
+					dictionary = {
+						["en-US"] = words,
+					},
+				},
+			},
 			root_dir = function()
 				return vim.loop.cwd()
 			end,
@@ -78,51 +94,80 @@ return {
 			end,
 		})
 
-		-- LSP settings (for overriding per client)
-		local handlers = {
-			["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
-			["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
-		}
+		lspconfig.biome.setup({
+			capabilities = capabilities,
 
-		local dotnet_handlers = {
-			["textDocument/definition"] = require("omnisharp_extended").definition_handler,
-			["textDocument/typeDefinition"] = require("omnisharp_extended").type_definition_handler,
-			["textDocument/references"] = require("omnisharp_extended").references_handler,
-			["textDocument/implementation"] = require("omnisharp_extended").implementation_handler,
-			["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
-			["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
-		}
-
-		local on_attach = function(client, bufnr)
-			client.server_capabilities.semanticTokensProvider = nil
-		end
-
-		-------------- C# --------------
-		local pid = vim.fn.getpid()
-		local omnisharp_bin = "/home/xer0/.local/share/nvim/mason/bin/omnisharp"
-		-- local omnisharp_bin = "/home/xer0/.local/share/omnisharp/OmniSharp"
-
-		lspconfig.omnisharp.setup({
-			-- on_attach = on_attach,
-			-- cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid) },
-			cmd = { omnisharp_bin },
-			handlers = dotnet_handlers,
+			filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "css", "html" },
 			root_dir = function()
 				return vim.loop.cwd()
 			end,
 		})
 
-		-- lspconfig.omnisharp.setup({
-		-- 	capabilities = capabilities,
-		-- 	-- cmd = { "dotnet", vim.fn.stdpath("data") .. "/mason/packages/omnisharp/libexec/OmniSharp.dll" },
-		-- 	cmd = { "/home/xer0/.local/share/nvim/mason/bin/omnisharp" },
-		-- 	enable_import_completion = false,
-		-- 	organize_imports_on_format = false,
-		-- 	enable_roslyn_analyzers = false,
-		-- 	root_dir = function()
-		-- 		return vim.loop.cwd() -- current working directory
-		-- 	end,
-		-- })
+		capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+		local configs = require("lspconfig.configs")
+		if not configs.ls_emmet then
+			configs.ls_emmet = {
+				default_config = {
+					cmd = { "ls_emmet", "--stdio" },
+					filetypes = {
+						"html",
+						"css",
+						"scss",
+						"javascriptreact",
+						"typescriptreact",
+						"haml",
+						"xml",
+						"xsl",
+						"pug",
+						"slim",
+						"sass",
+						"stylus",
+						"less",
+						"sss",
+						"hbs",
+						"handlebars",
+					},
+					root_dir = function(fname)
+						return vim.loop.cwd()
+					end,
+					settings = {},
+				},
+			}
+		end
+
+		lspconfig.ls_emmet.setup({ capabilities = capabilities })
+
+		local border = {
+			{ "🭽", "FloatBorder" },
+			{ "▔", "FloatBorder" },
+			{ "🭾", "FloatBorder" },
+			{ "▕", "FloatBorder" },
+			{ "🭿", "FloatBorder" },
+			{ "▁", "FloatBorder" },
+			{ "🭼", "FloatBorder" },
+			{ "▏", "FloatBorder" },
+		}
+
+		local _border = "rounded"
+
+		vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+			border = border,
+		})
+
+		vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+			border = border,
+		})
+
+		-- LSP settings (for overriding per client)
+		local handlers = {
+			["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
+			["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+		}
+
+		local on_attach = function(client, bufnr)
+			client.server_capabilities.semanticTokensProvider = nil
+		end
 
 		-------------- lua --------------
 		lspconfig.lua_ls.setup({
@@ -154,12 +199,14 @@ return {
 				-- See `:help vim.lsp.*` for documentation on any of the below functions
 				local opts = { buffer = ev.buf }
 				vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-				vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+				vim.keymap.set("n", "K", function()
+					vim.lsp.buf.hover({ border = "single" })
+				end, opts)
 				vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
 				vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
 				vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
-				vim.keymap.set("n", "<leader>fs", vim.lsp.buf.document_symbol, opts)
-				vim.keymap.set("n", "<leader>fS", vim.lsp.buf.workspace_symbol, opts)
+				-- vim.keymap.set("n", "<leader>fs", vim.lsp.buf.document_symbol, opts)
+				-- vim.keymap.set("n", "<leader>fS", vim.lsp.buf.workspace_symbol, opts)
 				vim.keymap.set("n", "<leader>wl", function()
 					print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 				end, opts)

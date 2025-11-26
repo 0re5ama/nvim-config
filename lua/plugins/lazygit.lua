@@ -3,6 +3,9 @@ return {
 	cmd = "LazyGit",
 	keys = {
 		{ "<leader>gg", ":LazyGit<cr>", desc = "lazygit" },
+		{ "<leader>ghpr", ":Octo pr list<cr>", desc = "lazygit" },
+		{ "<leader>ghrs", ":Octo review start<cr>", desc = "lazygit" },
+		{ "<leader>ghrc", ":Octo review close<cr>", desc = "lazygit" },
 	},
 	dependencies = {
 		{
@@ -40,33 +43,45 @@ return {
 						end, { expr = true })
 
 						-- Actions
-						map("n", "<leader>hs", gs.stage_hunk)
-						map("n", "<leader>hr", gs.reset_hunk)
+						map("n", "<leader>hs", gs.stage_hunk, { desc = "Git: Stage hunk" })
+						map("n", "<leader>hr", gs.reset_hunk, { desc = "Git: Reset hunk" })
 						map("v", "<leader>hs", function()
 							gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-						end)
+						end, { desc = "Git: Stage hunk" })
 						map("v", "<leader>hr", function()
 							gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-						end)
-						map("n", "<leader>hS", gs.stage_buffer)
-						map("n", "<leader>hu", gs.undo_stage_hunk)
-						map("n", "<leader>hR", gs.reset_buffer)
-						map("n", "<leader>hp", gs.preview_hunk)
+						end, { desc = "Git: Reset hunk" })
+						map("n", "<leader>hS", gs.stage_buffer, { desc = "Git: Stage buffer" })
+						map("n", "<leader>hu", gs.undo_stage_hunk, { desc = "Git: Undo stage hunk" })
+						map("n", "<leader>hR", gs.reset_buffer, { desc = "Git: Reset buffer" })
+						map("n", "<leader>hp", gs.preview_hunk, { desc = "Git: Preview hunk" })
 						map("n", "<leader>hb", function()
 							gs.blame_line({ full = true })
-						end)
-						map("n", "<leader>tb", gs.toggle_current_line_blame)
-						map("n", "<leader>hd", gs.diffthis)
+						end, { desc = "Git: Blame line" })
+						map("n", "<leader>tb", gs.toggle_current_line_blame, { desc = "Git: Toggle Blame" })
+						map("n", "<leader>hd", gs.diffthis, { desc = "Git: Diff" })
 						map("n", "<leader>hD", function()
 							gs.diffthis("~")
-						end)
-						map("n", "<leader>td", gs.toggle_deleted)
+						end, { desc = "Git: Diff ~" })
+						map("n", "<leader>td", gs.toggle_deleted, { desc = "Git: Toggle deleted" })
 
 						-- Text object
-						map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
+						map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "Git: Select hunk" })
 					end,
 				})
 			end,
 		},
+		--[[ {
+			"pwntester/octo.nvim",
+			dependencies = {
+				"nvim-lua/plenary.nvim",
+				"nvim-telescope/telescope.nvim",
+				-- OR 'ibhagwan/fzf-lua',
+				"nvim-tree/nvim-web-devicons",
+			},
+			config = function()
+				require("octo").setup()
+			end,
+		}, ]]
 	},
 }

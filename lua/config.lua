@@ -47,6 +47,8 @@ lazy.setup({
 
 vim.keymap.set("n", "<leader>zz", "<cmd>Lazy<cr>", { desc = "Lazy" })
 
+vim.g.bomb = false
+
 vim.o.number = true
 o.relativenumber = true
 o.hidden = true
@@ -81,8 +83,64 @@ o.termguicolors = true
 o.scrolloff = 4
 o.updatetime = 50
 
-o.guifont = "FiraCode Nerd Font Mono:h10"
+o.guifont = "FiraCode Nerd Font Mono:h11"
 -- o.guibg= "#000000"
 g.neovide_transparency = 0.8
 
 -- o.colorcolumn = "80"
+
+-- Neovide configs
+vim.g.neovide_cursor_animation_length = 0.13
+vim.g.neovide_cursor_trail_size = 0.8
+vim.g.neovide_cursor_antialiasing = true
+vim.g.neovide_cursor_animate_in_insert_mode = true
+vim.g.neovide_cursor_vfx_mode = "railgun"
+vim.g.neovide_cursor_vfx_opacity = 200.0
+vim.g.neovide_cursor_vfx_particle_lifetime = 4.2
+-- vim.g.neovide_cursor_vfx_particle_density = 100.0
+vim.g.neovide_cursor_vfx_particle_speed = 36.0
+vim.g.neovide_cursor_vfx_particle_phase = 1000000
+-- vim.g.neovide_cursor_vfx_particle_curl = 10.0
+
+-- Rustaceanvim
+vim.g.rustaceanvim = {
+	tools = {
+		float_win_config = {
+			border = "rounded",
+		},
+	},
+	server = {
+		on_attach = function(client, bufnr)
+			-- you can also put keymaps in here
+			vim.lsp.inlay_hint.enable(true)
+		end,
+		--     settings = {
+		--       -- rust-analyzer language server configuration
+		--       ["rust-analyzer"] = {},
+		--     },
+		--   },
+		--   -- DAP configuration
+		--   dap = {},
+	},
+}
+
+o.guifont = "FiraCode Nerd Font Mono:h12"
+if vim.g.started_by_nvim == true then
+	o.guifont = "FiraCode Nerd Font Mono:h20"
+end
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "dart",
+	callback = function()
+		vim.bo.shiftwidth = 2
+		vim.bo.tabstop = 2
+	end,
+})
+
+vim.g.copilot_no_tab_map = true
+vim.api.nvim_set_keymap("i", "<M-CR>", 'copilot#Accept("<CR>")', {
+	silent = true,
+	expr = true,
+	script = true,
+	desc = "Accept Copilot suggestion",
+})
