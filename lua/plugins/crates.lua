@@ -3,6 +3,7 @@ return {
 	ft = { "rust", "toml" },
 	config = function(_, opts)
 		local crates = require("crates")
+		--[[
 		crates.setup({
 			completion = {
 				cmp = {
@@ -14,6 +15,7 @@ return {
 			-- 	name = "crates.nvim",
 			-- },
 		})
+        --]]
 		crates.show()
 
 		local opt = { silent = true }

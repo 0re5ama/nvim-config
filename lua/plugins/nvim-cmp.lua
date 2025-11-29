@@ -65,7 +65,7 @@ return {
 				["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 			}),
 			sources = cmp.config.sources({
-				{ name = "copilot" }, -- nvim-cmp source for vim-vsnip
+				-- { name = "copilot" }, -- nvim-cmp source for vim-vsnip
 				{ name = "vsnip", keyword_length = 2 }, -- nvim-cmp source for vim-vsnip
 				-- { name = 'cmp_tabnine' },                                -- file paths
 				{ name = "path" }, -- file paths
@@ -190,7 +190,7 @@ return {
 		-- Setup lspconfig.
 		local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-		require("lspconfig")["lua_ls"].setup({
+		vim.lsp.config("lua_ls", {
 			capabilities = capabilities,
 		})
 

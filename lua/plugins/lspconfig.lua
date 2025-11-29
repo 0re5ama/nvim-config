@@ -6,12 +6,11 @@ return {
 	},
 	config = function()
 		-- Setup language servers.
-		local lspconfig = require("lspconfig")
 		local util = require("lspconfig/util")
 
 		local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-		lspconfig.jsonls.setup({
+		vim.lsp.config("jsonls", {
 			settings = {
 				json = {
 					schemas = require("schemastore").json.schemas(),
@@ -20,42 +19,23 @@ return {
 			},
 		})
 
-		lspconfig.prismals.setup({
+		vim.lsp.config("sourcekit", {})
+
+		vim.lsp.config("zls", {
 			capabilities = capabilities,
 			root_dir = function()
 				return vim.loop.cwd()
 			end,
 		})
 
-		lspconfig.sourcekit.setup({})
-
-		-- 	lspconfig.angularls.setup({
-		-- 		capabilities = capabilities,
-		-- 		root_dir = function()
-		-- 			return vim.loop.cwd()
-		-- 		end,
-		-- 	})
-
-		lspconfig.zls.setup({
+		vim.lsp.config("html", {
 			capabilities = capabilities,
 			root_dir = function()
 				return vim.loop.cwd()
 			end,
 		})
 
-		lspconfig.html.setup({
-			capabilities = capabilities,
-			root_dir = function()
-				return vim.loop.cwd()
-			end,
-		})
-		lspconfig.cssls.setup({
-			capabilities = capabilities,
-			root_dir = function()
-				return vim.loop.cwd()
-			end,
-		})
-		lspconfig.ts_ls.setup({
+		vim.lsp.config("cssls", {
 			capabilities = capabilities,
 			root_dir = function()
 				return vim.loop.cwd()
@@ -67,37 +47,8 @@ return {
 			table.insert(words, word)
 		end
 
-		-- TODO: Add words to dictionary
-		lspconfig.ltex.setup({
+		vim.lsp.config("texlab", {
 			capabilities = capabilities,
-			settings = {
-				ltex = {
-					dictionary = {
-						["en-US"] = words,
-					},
-				},
-			},
-			root_dir = function()
-				return vim.loop.cwd()
-			end,
-		})
-		lspconfig.texlab.setup({
-			capabilities = capabilities,
-			root_dir = function()
-				return vim.loop.cwd()
-			end,
-		})
-		lspconfig.svelte.setup({
-			capabilities = capabilities,
-			root_dir = function()
-				return vim.loop.cwd()
-			end,
-		})
-
-		lspconfig.biome.setup({
-			capabilities = capabilities,
-
-			filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "css", "html" },
 			root_dir = function()
 				return vim.loop.cwd()
 			end,
@@ -136,7 +87,7 @@ return {
 			}
 		end
 
-		lspconfig.ls_emmet.setup({ capabilities = capabilities })
+		vim.lsp.config("ls_emmet", { capabilities = capabilities })
 
 		local border = {
 			{ "🭽", "FloatBorder" },
@@ -170,7 +121,7 @@ return {
 		end
 
 		-------------- lua --------------
-		lspconfig.lua_ls.setup({
+		vim.lsp.config("lua_ls", {
 			handlers = handlers,
 		})
 

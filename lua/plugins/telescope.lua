@@ -8,12 +8,7 @@ return {
 		{ "<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>", desc = "Telescope Buffers" },
 		{ "<leader>f?", "<cmd>lua require('telescope.builtin').help_tags()<cr>", desc = "Telescope Help" },
 		{ "<leader>fp", "<cmd>lua require('telescope.builtin').planets()<cr>", desc = "Telescope Planets" },
-		{ "<leader>fk", "<cmd>lua require('telescope.builtin').keymaps()<cr>", desc = "Telescope Planets" },
-		{
-			"<leader>rp",
-			"<cmd>lua require('telescope').extensions.projects.projects{}<cr>",
-			desc = "Telescope Planets",
-		},
+		{ "<leader>fk", "<cmd>lua require('telescope.builtin').keymaps()<cr>", desc = "Telescope Keymaps" },
 		{ "<leader>ft", ":TodoTelescope<cr>" },
 		{ "<leader>fd", ":Telescope diagnostics<cr>" },
 		{ "gr", ":Telescope lsp_references<cr>" },
@@ -26,22 +21,8 @@ return {
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		{
-			"ahmedkhalf/project.nvim",
+			"kyazdani42/nvim-tree.lua",
 			config = function()
-				require("project_nvim").setup({
-					patterns = {
-						">dev",
-						">.config",
-						".git",
-						"_darcs",
-						".hg",
-						".bzr",
-						".svn",
-						"Makefile",
-						"package.json",
-					},
-				})
-				require("telescope").load_extension("projects")
 				require("nvim-tree").setup({
 					sort_by = "case_sensitive",
 					view = {

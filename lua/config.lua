@@ -137,7 +137,7 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
-vim.g.copilot_no_tab_map = true
+-- vim.g.copilot_no_tab_map = true
 vim.api.nvim_set_keymap("i", "<M-CR>", 'copilot#Accept("<CR>")', {
 	silent = true,
 	expr = true,
